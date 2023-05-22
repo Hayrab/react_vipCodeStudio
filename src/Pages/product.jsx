@@ -1,5 +1,5 @@
 
-import { Fragment, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import CardProduct from "../assets/components/Fragments/CardProduct"
 import Button from "../assets/components/Elements/Button"
 
@@ -32,6 +32,23 @@ const email = localStorage.getItem("email");
 const Product = () => {
 
     const [cart, setCart] = useState([]);
+    const [totalPrice, setTotalPrice] = useState([0]);
+
+    useEffect(() => {
+        setCart(JSON.parse(localStorage.getItem("Cart")) || []); // mengambil data dari local storage
+    },[])
+
+    useEffect(() => {
+        if(cart.length > 0 ){
+            const sum = cart.reduce((acc,item) => {
+                const product = products.find((product) => product.id === item.id);
+                return acc + product.price * item.qty;
+            },0);
+            setTotalPrice(sum)
+            localStorage.setItem("Cart", JSON.stringify(cart)); // konversi objek ke json
+        }
+
+    },[cart])
 
     const handleAddToCart = (id) => {
         if(cart.find((item) => item.id === id)){
@@ -104,7 +121,7 @@ const Product = () => {
                     <tfoot>
                         <tr className="font-bold" >
                             <td colSpan={3}>Total Price</td>
-                            <td>Rp.{" "}{(1000000).toLocaleString("id-ID",{ styles:"currency", currency: "IDR"})}</td>
+                            <td>Rp.{" "}{totalPrice.toLocaleString("id-ID",{ styles:"currency", currency: "IDR"})}</td>
                         </tr>
                     </tfoot>
                 </table>
