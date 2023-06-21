@@ -1,14 +1,13 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import CardProduct from "../assets/components/Fragments/CardProduct";
-import Button from "../assets/components/Elements/Button";
 import { getProduct } from "../services/product.service";
 import { useLogin } from "../hooks/useLogin";
 import TableCart from "../assets/components/Fragments/TableCart";
+import NavBar from "../assets/components/Layouts/NavBar";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
-
-  const username = useLogin();
+  useLogin();
 
   useEffect(() => {
     getProduct((data) => {
@@ -20,25 +19,9 @@ const Product = () => {
   //   setCart(JSON.parse(localStorage.getItem("Cart")) || []); // mengambil data dari local storage
   // }, []);
 
-
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  };
-
-
   return (
     <Fragment>
-      <div className="flex justify-between bg-blue-600 h-14 text-white items-center px-10 ">
-        Navbar
-        <div>
-          {username}
-          <Button classname="ml-5 bg-black" onClick={handleLogout}>
-            Logout
-          </Button>
-        </div>
-      </div>
+      <NavBar />
       <div className="flex justify-center py-5">
         <div className="flex flex-wrap w-4/6 ">
           {products.length > 0 &&
