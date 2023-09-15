@@ -23,7 +23,7 @@ const Product = () => {
     <Fragment>
       <NavBar />
       <div className="flex justify-center py-5">
-        <div className="flex flex-wrap w-4/6 ">
+        <div className="flex flex-wrap w-7/12 ">
           {products.length > 0 &&
             products.map((product) => (
               <CardProduct key={product.id}>
@@ -31,16 +31,13 @@ const Product = () => {
                 <CardProduct.Body name={product.title}>
                   {product.description}
                 </CardProduct.Body>
-                <CardProduct.Footer
-                  price={product.price}
-                  id={product.id}
-                />
+                <CardProduct.Footer price={product.price} id={product.id} />
               </CardProduct>
             ))}
         </div>
-        <div className="w-2/6">
+        <div className="w-5/12">
           <h1 className="text-3xl font-bold text-blue-600 ml-5 mb-2">Cart</h1>
-          <TableCart products={products}/>
+          <TableCart products={products} />
         </div>
       </div>
     </Fragment>
