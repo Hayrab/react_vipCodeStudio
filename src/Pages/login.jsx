@@ -1,13 +1,12 @@
-import AuthLayout from '../assets/components/Layouts/AuthLayout'
-import FormLogin from '../assets/components/Fragments/FormLogin'
+import AuthLayout from "../assets/components/Layouts/AuthLayout";
+import FormLogin from "../assets/components/Fragments/FormLogin";
 
 const LoginPage = () => {
   return (
     <AuthLayout title="Login" type="login">
-        <FormLogin />
-
+      <FormLogin />
     </AuthLayout>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

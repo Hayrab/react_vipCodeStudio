@@ -9,8 +9,6 @@ const store = configureStore({
     },
 });
 
-console.log("On Create Store: ", store.getState());
-
 store.subscribe(()=> {
     console.log("STORE CHANGE: ", store.getState());
 })

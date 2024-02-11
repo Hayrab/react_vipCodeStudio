@@ -1,14 +1,13 @@
-import InputForm from "../Elements/Input"
-import Button from "../Elements/Button"
-import { useEffect, useRef, useState } from "react";
+import InputForm from "../Elements/Input";
+import Button from "../Elements/Button";
+import { useContext, useEffect, useRef, useState } from "react";
 import { login } from "../../../services/auth.service";
-
+import { DarkMode } from "../../../context/DarkMode";
 
 const FormLogin = () => {
-
-  const [loginFailed, setLoginFailed] = useState("")
-
-
+  const { isDarkMode } = useContext(DarkMode);
+  const [loginFailed, setLoginFailed] = useState("");
+  const textColour = !isDarkMode ? "text-black" : "text-white focus:text-black";
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -17,40 +16,56 @@ const FormLogin = () => {
     // window.location.href = "/product"
     const data = {
       username: event.target.username.value,
-      password: event.target.password.value
-    }
+      password: event.target.password.value,
+    };
     login(data, (status, res) => {
-      if(status){
-        localStorage.setItem('token', res) // ambil token dari res
-        window.location.href = "/products"
+      if (status) {
+        localStorage.setItem("token", res); // ambil token dari res
+        window.location.href = "/products";
       } else {
-        setLoginFailed(res.response.data)
+        setLoginFailed(res.response.data);
       }
-
-    })
-  }
+    });
+  };
 
   const usernameRef = useRef();
 
-  useEffect(() =>{
+  useEffect(() => {
     const token = localStorage.getItem("token");
-    if(token){
-        window.location.href = "/product";
+    if (token) {
+      window.location.href = "/products";
     } else {
       usernameRef.current.focus();
     }
-  },[])
+  }, []);
 
-  return ( 
-    
+  return (
     <form onSubmit={handleLogin}>
-        <InputForm label="Username" type="text" name="username" placeholder="User Name" ref={usernameRef}/>
-        <InputForm label="Password" type="password" name="password" placeholder="*****"/>
+      <InputForm
+        classname={textColour}
+        label="Username"
+        type="text"
+        name="username"
+        placeholder="User Name"
+        ref={usernameRef}
+      />
+      <InputForm
+        classname={textColour}
+        label="Password"
+        type="password"
+        name="password"
+        placeholder="*****"
+      />
 
-        <Button classname="bg-blue-600 w-full" type="submit"> Login </Button>
-        {loginFailed && <p className="text-red-500 text-center mt-5">{loginFailed}</p>}
+      <Button classname="bg-blue-600 w-full rounded-md" type="submit">
+        {" "}
+        Login{" "}
+      </Button>
+      {loginFailed && (
+        <p className="text-red-500 text-center mt-5">{loginFailed}</p>
+      )}
     </form>
-  )
-}
+  );
+};
 
-export default FormLogin
+export default FormLogin;
